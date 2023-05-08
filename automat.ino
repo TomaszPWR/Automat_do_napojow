@@ -11,12 +11,18 @@ LiquidCrystal lcd (rs, en, d4, d5, d6, d7); //info o które piny są podpięte d
 void powitanie();
 void menu();
 void silnik();
+void wykrywanie_objetosci();
+bool wykrywanie_szklanki();
 
 //dzieje się raz przy uruchomieniu
 void setup() {
   lcd.begin(16, 2); //deklaracja, że to wyświetlacz 16x2
   powitanie();
-  //czekaj aż będzie pewność, że wszystko działa
+  /*if (wykrywanie_szklanki() == true){  //czekaj aż będzie pewność, że wszystko działa
+ 
+  }
+  else
+  */
 }
  
  //dzieje się cały czas
@@ -45,4 +51,17 @@ void menu(){
 void silnik(){
   Stepper stepper(STEPS, 2, 3); //2 i 3 to piny arduino do których podpięty jest driver
   stepper.setSpeed(1000); //1000 RPM
+}
+
+void wykrywanie_objetosci(){
+ ;
+}
+
+bool wykrywanie_szklanki(){
+  bool wykryta = false;
+  /*if (wykryta == true)
+      return true;
+    else
+      return false;
+  */
 }
