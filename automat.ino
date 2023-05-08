@@ -1,10 +1,14 @@
+//pomysły:
+//po wyświetleniu menu() w aplikacji powinno móc się wybrać napój, wtedy odpalić funkcje int wybor() której wynik będzie przekazywany do silnika, aby poruszył się w //odpowiednie miejsce 
+
 //biblioteki
 #include <LiquidCrystal.h> //biblioteka do wyświetlacza
-#include <Stepper.h> //biblioteka do silnika krokowego
+#include <AccelStepper.h> //biblioteka do silnika krokowego
 //stałe zmienne
-#define STEPS 200 //wartość ze wzoru na steps by revolution
-#define motorInterfaceType 1 //ma być na 1 bo korzystam ze sterownika do silnika
-const int rs, en, d4, d5, d6, d7; //uzupełnić o odpowiednie wartości
+#define motorInterfaceType 8
+AccelStepper silnik(motorInterfaceType,) //w nawiasie wpisac piny
+const int rs, en, d4, d5, d6, d7; //piny ekranu lcd
+const int button1, button2 //piny przycisków
 LiquidCrystal lcd (rs, en, d4, d5, d6, d7); //info o które piny są podpięte do wyświetlacza
  
 //funkcje prototypowe
@@ -49,11 +53,21 @@ void menu(){
 }
 
 void silnik(){
-  Stepper stepper(STEPS, 2, 3); //2 i 3 to piny arduino do których podpięty jest driver
-  stepper.setSpeed(1000); //1000 RPM
+  silnik.setMaxSpeed(1000); //1000 RPM
+  //na razie zrobione na przycisk, ale przerobić aby działało na input z aplikacji
+  pinMode(button1, INPUT);
+  pinMode(button2, INPUT);
+  if( (digitalRead(button1) == HIGH) && (digitalRead(button2) == LOW) ){ //przycisk 1 włączony, przycisk 2 wyłączony
+    silnik.setSpeed(100); //clockwise
+    silnik.runSpeed();
+  }
+  else if( (digitalRead(button2) == HIGH) && (digitalRead(button2) == LOW) ){ //przycisk 2 włączony, przycisk 1 wyłączony
+    silnik.setSpeed(-100); //counter clockwise
+    silnik.runSpeed();
+  }
 }
 
-void wykrywanie_objetosci(){
+void wykrywanie_objetosci(){ //opcjonalne
  ;
 }
 
